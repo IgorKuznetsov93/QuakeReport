@@ -51,17 +51,36 @@ public final class Utils {
 
 
         try {
-            JSONObject root = new JSONObject(jsonResponse);
-            JSONArray features = root.getJSONArray("features");
-            for(int i =0; i<features.length(); i++) {
-                JSONObject object = features.getJSONObject(i);
-                JSONObject properties = object.getJSONObject("properties");
+
+
+            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
+
+
+            JSONArray earthquakeArray = baseJsonResponse.getJSONArray("features");
+
+
+            for (int i = 0; i < earthquakeArray.length(); i++) {
+
+
+                JSONObject currentEarthquake = earthquakeArray.getJSONObject(i);
+
+
+                JSONObject properties = currentEarthquake.getJSONObject("properties");
+
+
                 double magnitude = properties.getDouble("mag");
-                String city = properties.getString("place");
+
+                String location = properties.getString("place");
+
                 long time = properties.getLong("time");
+
                 String url = properties.getString("url");
 
-                earthquakes.add(new Earthquake(magnitude, city, time, url));
+
+                Earthquake earthquake = new Earthquake(magnitude, location, time, url);
+
+
+                earthquakes.add(earthquake);
             }
 
 
